@@ -5,19 +5,18 @@
     </head>
    </head>
    <body>
-  <div id="cl">
+  
+      <div id="con">
         <label for="favcolor"> Select your favorite color:</label>
         <input type="color" id="color">
-        <input type="button" id="btnclr" value="change color" onclick="changeColor()">
-    
-    </div>
-      <span id="con">
-        <button id="ln">Line</button>
-        <button id="crl">circle</button>
-        <button id="sq">square</button>
-        <button id="dr">draw</button>
+       
+        <button id="ln" onclick="changeColor()" >Line</button>
+        <button id="crl"onclick="changeColor()" >circle</button>
+        <button id="sq"onclick="changeColor()" >square</button>
+        <button id="dr"onclick="changeColor()" >draw</button>
+        <button id="clear" >Earse</button>
 
-    </span>
+      </div>
 <div id="board">
   <canvas id ="canvas">  
   
