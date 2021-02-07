@@ -1,13 +1,14 @@
 var canvas= document.getElementById('canvas');
 var Context = canvas.getContext("2d"); 
-canvas.width=600;
-canvas.height=500;
+canvas.width=1100;
+canvas.height=520;
 var radius=3;
 var dragging =false;
 var flag_circle=false;
 var flag_square=false;
 var flag_line=false;
 var flag_draw=false;
+var flag_clear=false;
 
 
 Context.lineWidth=radius*2;
@@ -26,65 +27,7 @@ function changeColor(){
  color=document.getElementById('color').value;
 }
 
-// var putPoint=function(e){
-//     if(dragging){
-//         Context.lineTo(e.offsetX,e.offsetY);
-//         Context.strokeStyle = color;
-//         Context.stroke();
-//         Context.beginPath();
-//         Context.arc(e.offsetX,e.offsetY,radius,0,Math.PI*2)
-//         Context.fill();
-//         Context.fillStyle = color;
-//         Context.beginPath();
-//         Context.moveTo(e.offsetX,e.offsetY);
-//     }
-// }
-// var engage=function(e){
-//     dragging =true;
-//     putPoint(e);
 
-// }
-// var disengaged=function(e){
-//     if(dragging !=false ) {
-//     dragging=false;
-//     Context.beginPath();
-// }
-//     var rect = e.target.getBoundingClientRect();
-//     xPosition = e.clientX - rect.left; 
-//     yPosition = e.clientY - rect.top;  
-    
-//     if(flag_line){
-//         conlin=canvas.getContext("2d"); 
-//         conlin.strokeStyle = color;
-//         conlin.moveTo(xPosition,yPosition);
-//         conlin.lineTo(xPosition+150,yPosition+75); 
-//         conlin.stroke();
-//         console.log(flag_line);
-//         console.log(flag_circle);
-//         console.log(flag_square);
-//   }
-//   else if(flag_square)
-//   {       
-//   conlsq=canvas.getContext("2d"); 
-//   conlsq.fillStyle = color;
-//   conlsq.fillRect(xPosition,yPosition,150,75);
-//   console.log(flag_line);
-//         console.log(flag_circle);
-//         console.log(flag_square);
-//   }
-//   else if(flag_circle)
-// {
-//     conlcr=canvas.getContext("2d");
-//     conlcr.beginPath();
-//     conlcr.arc(xPosition,yPosition,40,0,Math.PI*2)
-//     conlcr.fill();
-//     conlcr.fillStyle = color;
-//   conlcr.stroke();   
-//   console.log(flag_line);
-//         console.log(flag_circle);
-//         console.log(flag_square);
-//   }
-// }
 
    $("#ln").on('click', function () {
        flag_line=true;
@@ -92,6 +35,7 @@ function changeColor(){
        flag_square=false;
        dragging=false;
        flag_draw=false;
+       flag_clear=false;
 
    });
    $("#crl").on('click', function () {
@@ -100,7 +44,7 @@ function changeColor(){
     flag_square=false;
     dragging=false;
     flag_draw=false;
-    console.log(flag_circle); 
+    flag_clear=false;
 
 });
 $("#sq").on('click', function () {
@@ -109,12 +53,25 @@ $("#sq").on('click', function () {
     flag_line=false;
     dragging=false;
     flag_draw=false;
+    flag_clear=false;
 
 
 });
 
 $("#dr").on('click', function () {
     flag_draw=true;
+    flag_square=false;
+    flag_circle=false;
+    flag_line=false;
+    dragging=false;
+    flag_clear=false;
+    
+
+});
+
+$("#clear").on('click', function () {
+    flag_clear=true;
+    flag_draw=false;
     flag_square=false;
     flag_circle=false;
     flag_line=false;
@@ -129,10 +86,9 @@ canvas.addEventListener('mousedown',(e)=>{
     yPosition = e.clientY - rect.top;  
     x1=xPosition;
     y1=yPosition;
-    if(flag_draw) {dragging=true;}
-  
-    console.log("Left? : " + xPosition + " ; Top? : " + yPosition + ".");
+    if(flag_draw || flag_clear) dragging=true;
 
+  
 });
 
 canvas.addEventListener('mousemove',(e)=>{
@@ -149,6 +105,20 @@ canvas.addEventListener('mousemove',(e)=>{
             Context.moveTo(e.offsetX,e.offsetY);
         }
   }
+  else if(flag_clear){
+    if(dragging){
+        Context.lineTo(e.offsetX,e.offsetY);
+        Context.strokeStyle = "white";
+        Context.stroke();
+        Context.beginPath();
+        Context.arc(e.offsetX,e.offsetY,radius,0,Math.PI*2)
+        Context.fill();
+        Context.fillStyle = "white";
+        Context.beginPath();
+        Context.moveTo(e.offsetX,e.offsetY);
+    }
+}
+
 });
 
 
@@ -183,60 +153,10 @@ canvas.addEventListener('mouseup',(e)=>{
                 var conlin=canvas.getContext("2d"); 
                  conlin.strokeStyle = color;
                 conlin.moveTo(xPosition,yPosition);
-                conlin.lineTo(xPosition+x2,yPosition+y2);                     conlin.stroke();
+                conlin.lineTo(xPosition+x2,yPosition+y2);             
+                        conlin.stroke();
                 
             }
 
 });
-
-
-// canvas.addEventListener('mousedown',engage);
-// canvas.addEventListener('mousemove',putPoint);
-// canvas.addEventListener('mouseup',disengaged);
-// drawFn();
-
-//    $("#ln").on('click', function (e) {
-//     canvas.addEventListener('mousedown', function(e){
-//     Context.strokeStyle = color;
-//     Context.moveTo(e.offsetX,e.offsetY);
-//      Context.lineTo(e.offsetX+150,e.offsetY+75); 
-//      Context.stroke();
-//      });
-//     });
-
-//     $("#sq").on('click', function cl (e)  {
-//         canvas.addEventListener('mousedown', function(e){
-//         Context.fillStyle = color;
-//         Context.fillRect(e.offsetX,e.offsetY,150,75);
-//          });
-//         });
-
-//    $("#crl").on('click', function (e) {
-//     canvas.addEventListener('mousedown', function(e){
-//         Context.beginPath();
-//         Context.arc(e.offsetX,e.offsetY,40,0,Math.PI*2)
-//         Context.fill();
-//         Context.fillStyle = color;
-//         Context.stroke();       
-//      });
-//     });
-
-
-    // $("#del").on('click', function (e) {
-    //     Context.beginPath();
-    //     $("#crl").removeEventListener("mousemove", cl);
-        
-    //  });
-// var pageX;
-// var pageY;
-// console.log(pageX);
-//     function updateDisplay(event) {
-//         pageX = event.pageX;
-//         pageY = event.pageY;
-//       }
-      
-//       box.addEventListener("mousemove", updateDisplay, false);
-//       box.addEventListener("mouseenter", updateDisplay, false);
-//       box.addEventListener("mouseleave", updateDisplay, false);
-
 
